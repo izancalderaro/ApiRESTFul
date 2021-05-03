@@ -1,6 +1,0 @@
-{
-  "require": "build/test/integration/config/helpers.js",
-  "reporter": "spec",
-  "extensions": ["js"],
-  "slow": 75
-}
