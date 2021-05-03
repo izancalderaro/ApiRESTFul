@@ -1,1 +1,8 @@
-node_modules
+#**********folders
+/node_modules
+/build
+/coverage
+
+
+#***********files
+package-lock.json
