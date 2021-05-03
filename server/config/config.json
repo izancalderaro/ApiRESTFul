@@ -1,0 +1,16 @@
+{
+  "development": {
+    "database": "ts-api-test",
+    "dialect": "postgres",
+    "username": "postgres",
+    "password": "getec001",
+    "host": "localhost"
+  },
+  "production": {
+    "database": "ts-api",
+    "dialect": "postgres",
+    "username": "postgres",
+    "password": "getec001",
+    "host": "localhost"
+  }
+}
