@@ -1,10 +1,6 @@
-import { Table, Column, Model, HasMany, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, HasMany, DataType, CreatedAt, UpdatedAt } from 'sequelize-typescript';
 
-@Table({
-  timestamps: true,
-  createdAt: 'creationDate',
-  updatedAt: 'updatedOn'
-})
+@Table({ timestamps: true })
 class User extends Model {
 
   @Column(DataType.TEXT)
@@ -14,4 +10,11 @@ class User extends Model {
   @Column
   public password: string
 
+  @CreatedAt
+  @Column
+  createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
 }
