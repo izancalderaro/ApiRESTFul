@@ -8,5 +8,4 @@ coverage
 package-lock.json
 .env
 .env.testing
-.env.testing.s
 
