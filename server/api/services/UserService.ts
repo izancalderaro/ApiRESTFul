@@ -1,6 +1,6 @@
 import { IUser, createUsers, createUserById, createUserByEmail } from '../interfaces/UserInterface';
 import Bluebird from 'bluebird';
-const model = require('../../models');
+const model = require('../../db/models');
 
 class UserService implements IUser {
 

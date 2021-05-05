@@ -1,21 +1,17 @@
-import Development from './Development.env';
-import Production from './Production.env';
+import dotenv from 'dotenv'
 
-function Config() {
-      if (process.env.NODE_ENV == 'development') {
-            return Development
-      } else {
-            return Production
-      }
+dotenv.config({
+  path: process.env.NODE_ENV === "development" ? ".env.testing" : ".env"
+})
+
+module.exports = {
+  database: process.env.DB_DATABASE,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  dialect: process.env.DB_DIALECT,
+  host: process.env.DB_HOST,
+  dburl: process.env.DB_URL,
+  serverPort: process.env.DB_PORT
 }
 
-module.exports = Config
 
-
-// module.exports = () => require(`../env/${ process.env.NODE_ENV }.env.${extension}`);
-
-//   function Config():any {
-//       return require(`../env/${process.env.NODE_ENV}.env.${extension}`)
-// }
-
-// module.exports = Config

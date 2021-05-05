@@ -1,7 +1,7 @@
 import http from 'http'
 import Api from './api/Api'
-const config = require('./config/env/Config')()
-const models = require('./models/');
+const config = require('./config/env/Config')
+const models = require('./db/models')
 
 const server = http.createServer(Api)
 
