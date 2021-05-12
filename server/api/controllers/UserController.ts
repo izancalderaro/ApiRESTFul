@@ -1,12 +1,17 @@
 import { Request, Response } from 'express';
 import _ from 'lodash';
-import HTTPStatus from 'http-status';
 import Handlers from '../responses/Handler';
 import UserService from '../services/UserService';
 
 class UserServiceController {
-  constructor() {
+  constructor() { }
 
+  add(_req: Request, _res: Response) {
+    UserService
+      .add()
+      .then(_.partial(Handlers.onSucess, _res))
+      .catch(_.partial(Handlers.dbErrorHandler, _res))
+      .catch(_.partial(Handlers.onError, _res, `Erro ao inserir novo uasuário`))
   }
 
   create(_req: Request, _res: Response) {
@@ -25,12 +30,18 @@ class UserServiceController {
 
   }
 
-
   getById(_req: Request, _res: Response) {
     const UserServiceId = parseInt(_req.params.id);
     UserService.getById(UserServiceId)
       .then(_.partial(Handlers.onSucess, _res))
       .catch(_.partial(Handlers.onError, _res, `Usuário não encontrado`))
+  }
+
+  getByEmail(_req: Request, _res: Response) {
+    const email = _req.params.find
+    UserService.getByEmail(email)
+      .then(_.partial(Handlers.onSucess, _res))
+      .catch(_.partial(Handlers.onError, _res, `E-mail não encontrado`))
   }
 
   update(_req: Request, _res: Response) {

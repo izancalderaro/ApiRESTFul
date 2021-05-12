@@ -1,6 +1,9 @@
-import { IUser, createUsers, createUserById, createUserByEmail } from '../interfaces/UserInterface';
-import Bluebird from 'bluebird';
-const model = require('../../models');
+import { sequelize } from '../../Sequelize';
+import { User } from "../../models/User";
+import { IUser, createUsers, createUserById, createUserByEmail, createUser } from '../interfaces/UserInterface';
+import { result } from 'lodash';
+
+
 
 class UserService implements IUser {
 
@@ -11,45 +14,91 @@ class UserService implements IUser {
     public password: string = ''
   ) { }
 
-  create(user: any): Bluebird<IUser> {
-    return model.User.create(user);
+
+  async create(user: IUser): Promise<IUser> {
+    try {
+      await sequelize.transaction(async (t) => {
+        const result = await User.create(user, {
+          transaction: t
+        });
+      })
+      return user
+    } catch (err) {
+      return err
+    }
   }
 
-  getAll(): Bluebird<IUser[]> {
-    return model.User.findAll({
-      order: ['name']
-    })
-      .then(createUsers);
+  async getAll(): Promise<IUser[]> {
+    const result = await User.findAll({
+      order: ['id']
+    });
+    return createUsers(result);
   }
 
-  getById(id: number): Bluebird<IUser> {
-    return model.User.findOne({
-      where: { id }
-    })
-      .then(createUserById);
+
+  async getById(id: number): Promise<IUser> {
+    const result = await User.findByPk(id);
+    return createUserById(result);
   }
 
-  getByEmail(email: string): Bluebird<IUser> {
-    return model.User.findOne({
+  async getByEmail(email: string): Promise<IUser> {
+    const result = await User.findOne({
       where: { email }
+    });
+    return createUserByEmail(result)
+  }
+
+  async update(id: number, user: IUser): Promise<IUser> {
+    try {
+      await sequelize.transaction(async (t) => {
+        const result = await User.update(user, {
+          where: { id },
+          fields: ['name', 'email', 'password'],
+          transaction: t
+        });
+      });
+      return user
+
+    } catch (err) {
+      return err
+    }
+  }
+
+  async delete(id: number): Promise<string> {
+    await sequelize.transaction(async (t) => {
+      const result = await User.destroy({
+        where: { id },
+        transaction: t
+      });
     })
-      .then(createUserByEmail);
+    return `Usuário excluído`
   }
 
-  update(id: number, user: any): Bluebird<IUser> {
-    return model.User.update(user, {
-      where: { id },
-      fields: ['name', 'email', 'password'],
-      // hooks: true,
-      // individualHooks: true
-    });
+  async add(): Promise<string> {
+    await sequelize.transaction(async (t) => {
+      await User.create({
+        name: 'Izan',
+        password: '12345678',
+        email: 'izancalderaro@gmail.com'
+      }, { transaction: t })
+
+      await User.create({
+        name: 'Enzo Matteo',
+        password: '12345678',
+        email: 'ttocalderaro@gmail.com'
+      }, { transaction: t })
+
+      await User.create({
+        name: 'Izabella',
+        password: '12345678',
+        email: 'izabellanocchi@gmail.com'
+      }, { transaction: t })
+    })
+
+    return 'Usuários adicionados'
+
   }
 
-  delete(id: number): Bluebird<IUser> {
-    return model.User.destroy({
-      where: { id }
-    });
-  }
 }
 
 export default new UserService();

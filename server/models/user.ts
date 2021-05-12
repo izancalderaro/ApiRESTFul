@@ -1,20 +1,32 @@
-import { Table, Column, Model, HasMany, DataType, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, NotEmpty, IsEmail, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { Col } from 'sequelize/types/lib/utils';
 
-@Table({ timestamps: true })
-class User extends Model {
+@Table({
+  tableName: 'User',
+  timestamps: true,
+  indexes: [
+    { fields: ['name'] },
+    { fields: ['email'], unique: true }
+  ]
+})
+export class User extends Model {
 
-  @Column(DataType.TEXT)
+  @AutoIncrement
+  @PrimaryKey
+  @Column
+  public id: number
+
+  @NotEmpty
+  @Column(DataType.STRING(50))
   public name: string
-  @Column
-  public email: string
-  @Column
+
+  @NotEmpty
+  @Column(DataType.STRING(8))
   public password: string
 
-  @CreatedAt
-  @Column
-  createdAt!: Date;
+  @NotEmpty
+  @IsEmail
+  @Column(DataType.STRING(50))
+  public email: string
 
-  @UpdatedAt
-  @Column
-  updatedAt!: Date;
 }
