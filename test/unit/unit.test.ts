@@ -1,6 +1,6 @@
 import { testDouble, expect } from './config/helpers';
-// import User from '../../server/modules/User/service';
-// const model = require('../../server/models');
+
+
 
 
 describe('Teste unitários do controller', () => {

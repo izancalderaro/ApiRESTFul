@@ -13,14 +13,17 @@ class Handler {
 
   onError(_res: Response, message: string, err: any) {
     //send(message)
-    _res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({ payload: `${message} => Erro: ${err}` })
+    _res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({
+      payload: `${message} => ${err}`
+    })
+    // _res.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(message)
 
   }
 
   dbErrorHandler(_res: Response, err: any) {
     _res.status(HTTPStatus.INTERNAL_SERVER_ERROR).json({
-      code: 'ERR-001',
-      message: 'Erro Interno do Servidor'
+      code: `ERR-001`,
+      message: `${err}`
     })
   }
 

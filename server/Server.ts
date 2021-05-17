@@ -1,6 +1,6 @@
 import http from 'http'
 import Api from './api/Api'
-import { sequelize } from './Sequelize';
+import { sequelize } from './api/Sequelize';
 
 
 

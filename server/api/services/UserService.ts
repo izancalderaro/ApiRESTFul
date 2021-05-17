@@ -1,103 +1,100 @@
-import { sequelize } from '../../Sequelize';
-import { User } from "../../models/User";
-import { IUser, createUsers, createUserById, createUserByEmail, createUser } from '../interfaces/UserInterface';
-import { result } from 'lodash';
+import { sequelize } from '../Sequelize';
+import { User } from "../models/User";
+import { IUser, createUsers, createUser } from '../interfaces/UserInterface';
+import Bluebird from 'bluebird';
+import { indexOf } from 'lodash';
 
 
 
 class UserService implements IUser {
+  public id: number
+  public name: string
+  public email: string
+  public password: string
 
-  constructor(
-    public id: number = 0,
-    public name: string = '',
-    public email: string = '',
-    public password: string = ''
-  ) { }
+  constructor() { }
 
+  async add() {
+    await sequelize.transaction(
+      async (t) => {
+        await User.create({
+          name: 'Joao',
+          password: '12345678',
+          email: 'joao@gmail.com'
+        }, { transaction: t })
 
-  async create(user: IUser): Promise<IUser> {
-    try {
-      await sequelize.transaction(async (t) => {
-        const result = await User.create(user, {
+        await User.create({
+          name: 'Maria',
+          password: '12345678',
+          email: 'maria@gmail.com'
+        }, { transaction: t })
+
+        await User.create({
+          name: 'Sebastiao',
+          password: '12345678',
+          email: 'sebastiao@gmail.com'
+        }, { transaction: t })
+      })
+  }
+
+  async create(user: IUser) {
+    await sequelize.transaction(
+      async (t) => {
+        await User.create(user, {
           transaction: t
         });
-      })
-      return user
-    } catch (err) {
-      return err
-    }
+      });
   }
 
   async getAll(): Promise<IUser[]> {
     const result = await User.findAll({
-      order: ['id']
+      order: ['name']
     });
     return createUsers(result);
   }
 
-
   async getById(id: number): Promise<IUser> {
-    const result = await User.findByPk(id);
-    return createUserById(result);
+    const result = await User.findByPk(id)
+    return createUser(result)
   }
 
   async getByEmail(email: string): Promise<IUser> {
     const result = await User.findOne({
       where: { email }
     });
-    return createUserByEmail(result)
+    return createUser(result);
   }
 
-  async update(id: number, user: IUser): Promise<IUser> {
-    try {
-      await sequelize.transaction(async (t) => {
+  async update(id: number, user: IUser) {
+    await sequelize.transaction(
+      async (t) => {
         const result = await User.update(user, {
           where: { id },
           fields: ['name', 'email', 'password'],
           transaction: t
-        });
-      });
-      return user
-
-    } catch (err) {
-      return err
-    }
+        })
+        //verifica se tem Id
+        // const cod = result.shift()
+        // if (cod == 0) {
+        //   throw new Error('Id inexistente')
+        // }
+      })
   }
 
-  async delete(id: number): Promise<string> {
-    await sequelize.transaction(async (t) => {
-      const result = await User.destroy({
-        where: { id },
-        transaction: t
-      });
-    })
-    return `Usuário excluído`
+  async delete(id: number) {
+    await sequelize.transaction(
+      async (t) => {
+        const result = await User.destroy({
+          where: { id },
+          transaction: t
+        })
+        //verifica se tem Id
+        // if (result == 0) {
+        //   throw new Error('Id inexistente')
+        // }
+      })
   }
 
-  async add(): Promise<string> {
-    await sequelize.transaction(async (t) => {
-      await User.create({
-        name: 'Izan',
-        password: '12345678',
-        email: 'izancalderaro@gmail.com'
-      }, { transaction: t })
-
-      await User.create({
-        name: 'Enzo Matteo',
-        password: '12345678',
-        email: 'ttocalderaro@gmail.com'
-      }, { transaction: t })
-
-      await User.create({
-        name: 'Izabella',
-        password: '12345678',
-        email: 'izabellanocchi@gmail.com'
-      }, { transaction: t })
-    })
-
-    return 'Usuários adicionados'
-
-  }
 
 }
 

@@ -5,6 +5,5 @@ coverage/
 
 
 #***********files
-package-lock.json
 .env
 .env.testing

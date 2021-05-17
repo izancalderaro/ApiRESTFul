@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Handlers from '../responses/Handler';
 import UserService from '../services/UserService';
 
-class UserServiceController {
+class UserController {
   constructor() { }
 
   add(_req: Request, _res: Response) {
@@ -11,7 +11,7 @@ class UserServiceController {
       .add()
       .then(_.partial(Handlers.onSucess, _res))
       .catch(_.partial(Handlers.dbErrorHandler, _res))
-      .catch(_.partial(Handlers.onError, _res, `Erro ao inserir novo uasuário`))
+      .catch(_.partial(Handlers.onError, _res, `Erro ao inserir novos uasuários`))
   }
 
   create(_req: Request, _res: Response) {
@@ -56,8 +56,8 @@ class UserServiceController {
     const UserServiceId = parseInt(_req.params.id);
     UserService.delete(UserServiceId)
       .then(_.partial(Handlers.onSucess, _res))
-      .catch(_.partial(Handlers.onError, _res, `Erro ao excluir usuário`))
+      .catch(_.partial(Handlers.onError, _res, `Falha ao excluir usuário`))
   }
 }
 
-export default new UserServiceController();
+export default new UserController();
