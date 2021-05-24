@@ -1,9 +1,6 @@
 import { sequelize } from '../Sequelize';
 import { User } from "../models/User";
 import { IUser, createUsers, createUser } from '../interfaces/UserInterface';
-import Bluebird from 'bluebird';
-import { indexOf } from 'lodash';
-
 
 
 class UserService implements IUser {

@@ -8,7 +8,7 @@
     "build": "tsc -b --verbose",
     "development": "set NODE_ENV=development&&  nodemon --watch server/ --exec ts-node server/Server.ts -e ts",
     "unit-test": "set NODE_ENV=production&& node ./node_modules/mocha/bin/mocha --config ./build/test/unit/config/.mocharc.json ./build/test/unit/*.js",
-    "integration-test": "set NODE_ENV=production&& node ./node_modules/mocha/bin/mocha --config ./build/test/integration/config/.mocharc.json ./build/test/integration/*.js"
+    "integration-test": "set NODE_ENV=production&& node ./node_modules/mocha/bin/mocha --config ./test/integration/config/.mocharc.json -r ts-node/register ./test/integration/*.ts"
   },
   "keywords": [],
   "author": "",

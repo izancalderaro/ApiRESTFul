@@ -1,15 +1,48 @@
-import { testDouble, expect } from './config/helpers';
-
-
-
+import { expect } from './config/helpers';
+import { User } from "../../server/api/models/User";
+import { sequelize } from "../../server/api/Sequelize";
 
 describe('Teste unitários do controller', () => {
 
-  describe('Criaçao de Usuário', () => {
-    it('', () => {
+  let email: any;
+  let _id: any;
 
+  const defaultUser = {
+    id: 1,
+    name: 'Default User',
+    email: 'defaultuser@email.com',
+    password: '1234'
+  }
+
+  beforeEach((done) => {
+    User.destroy({
+      where: {}
     })
+      .then(() => {
+        User.create(defaultUser).then(() => {
+          console.log(`Default User created`)
+          done();
+        });
+      })
+  });
+
+
+  describe('Criaçao de Usuário', () => {
+    it('Deve criar um novo Usuário', () => {
+      return User.create({
+        id: 2,
+        name: 'Novo Usuario',
+        email: 'novousuario@email.com',
+        password: '1234'
+      })
+        .then(data => {
+          expect(data.getDataValue).to.have.all.keys(
+            ['email', 'id', 'name', 'password', 'updatedAt', 'createdAt']
+          )
+        });
+    });
   })
+
   describe('Atualização de usuário', () => {
     it('', () => {
 

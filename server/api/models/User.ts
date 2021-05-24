@@ -1,5 +1,4 @@
-import { Table, Column, Model, DataType, NotEmpty, IsEmail, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
-import { Col } from 'sequelize/types/lib/utils';
+import { Table, Column, Model, DataType, NotEmpty, IsEmail, PrimaryKey, AutoIncrement } from 'sequelize-typescript'
 
 @Table({
   tableName: 'User',
