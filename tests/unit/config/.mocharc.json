@@ -1,0 +1,6 @@
+{
+  "require": "./test/unit/config/helpers.ts",
+  "reporter": "spec",
+  "extensions": ["ts"],
+  "slow": 75
+}

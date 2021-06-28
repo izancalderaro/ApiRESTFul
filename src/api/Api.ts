@@ -8,6 +8,7 @@ import { ErrorHandlerApi, IgnoreFavicon } from "./responses/ErrorHandlerApi";
 class Api {
 
   public app: Application;
+  public auth: any
 
   constructor() {
     this.app = express();
@@ -18,13 +19,14 @@ class Api {
     this.app.use(morgan("dev"));
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
-    this.routes(this.app);
     this.app.use(ErrorHandlerApi);
     this.app.use(IgnoreFavicon);
+    this.routes(this.app, this.auth);
+
   }
 
-  private routes(api: Application) {
-    new Routes(api);
+  private routes(api: Application, auth: any) {
+    new Routes(api, auth);
   }
 }
 

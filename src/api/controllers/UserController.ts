@@ -22,6 +22,21 @@ class UserController {
       .catch(_.partial(Handlers.onError, _res, `Erro ao inserir novo uasuário`))
   }
 
+  update(_req: Request, _res: Response) {
+    const UserServiceId = parseInt(_req.params.id);
+    const props = _req.body;
+    UserService.update(UserServiceId, props)
+      .then(_.partial(Handlers.onSucess, _res))
+      .catch(_.partial(Handlers.onError, _res, `Falha ao atualizar usuário`))
+  }
+
+  delete(_req: Request, _res: Response) {
+    const UserServiceId = parseInt(_req.params.id);
+    UserService.delete(UserServiceId)
+      .then(_.partial(Handlers.onSucess, _res))
+      .catch(_.partial(Handlers.onError, _res, `Falha ao excluir usuário`))
+  }
+
   getAll(_req: Request, _res: Response) {
     UserService
       .getAll()
@@ -42,21 +57,6 @@ class UserController {
     UserService.getByEmail(email)
       .then(_.partial(Handlers.onSucess, _res))
       .catch(_.partial(Handlers.onError, _res, `E-mail não encontrado`))
-  }
-
-  update(_req: Request, _res: Response) {
-    const UserServiceId = parseInt(_req.params.id);
-    const props = _req.body;
-    UserService.update(UserServiceId, props)
-      .then(_.partial(Handlers.onSucess, _res))
-      .catch(_.partial(Handlers.onError, _res, `Falha ao atualizar usuário`))
-  }
-
-  delete(_req: Request, _res: Response) {
-    const UserServiceId = parseInt(_req.params.id);
-    UserService.delete(UserServiceId)
-      .then(_.partial(Handlers.onSucess, _res))
-      .catch(_.partial(Handlers.onError, _res, `Falha ao excluir usuário`))
   }
 }
 
