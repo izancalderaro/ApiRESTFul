@@ -1,33 +1,33 @@
-import express, { Application } from "express";
-import morgan from "morgan";
-import * as bodyParser from "body-parser";
-import Routes from "./routes/Routes";
-import { ErrorHandlerApi, IgnoreFavicon } from "./responses/ErrorHandlerApi";
+/** @format */
 
+import express, { Application } from 'express';
+import morgan from 'morgan';
+import * as bodyParser from 'body-parser';
+import Routes from './routes/Routes';
+import { ErrorHandlerApi, IgnoreFavicon } from './responses/ErrorHandlerApi';
 
 class Api {
+    public express: Application;
 
-  public app: Application;
-  public auth: any
+    public constructor() {
+        this.express = express();
+        this.middlewares();
+    }
 
-  constructor() {
-    this.app = express();
-    this.middlewares();
-  }
+    private middlewares(): void {
+        this.express.use(morgan('dev'));
+        this.express.use(bodyParser.urlencoded({ extended: true }));
+        this.express.use(bodyParser.json());
+        // this.express.use(express.urlencoded({ extended: true }));
+        // this.express.use(express.json());
+        this.express.use(ErrorHandlerApi);
+        this.express.use(IgnoreFavicon);
+        this.routes(this.express);
+    }
 
-  middlewares(): void {
-    this.app.use(morgan("dev"));
-    this.app.use(bodyParser.urlencoded({ extended: true }));
-    this.app.use(bodyParser.json());
-    this.app.use(ErrorHandlerApi);
-    this.app.use(IgnoreFavicon);
-    this.routes(this.app, this.auth);
-
-  }
-
-  private routes(api: Application, auth: any) {
-    new Routes(api, auth);
-  }
+    private routes(app: Application): void {
+        new Routes(app);
+    }
 }
 
-export default new Api().app
+export default new Api().express;

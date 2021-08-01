@@ -1,5 +1,5 @@
 {
-  "require": "./test/integration/config/helpers.ts",
+  "require": "./tests/integration/config/helpers.ts",
   "reporter": "spec",
   "extensions": ["ts"],
   "slow": 75
