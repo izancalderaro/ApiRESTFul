@@ -16,8 +16,9 @@
     "emitDecoratorMetadata": true,   
     "experimentalDecorators": true,            
     "skipLibCheck": true,                         
-    "forceConsistentCasingInFileNames": true      
+    "forceConsistentCasingInFileNames": true
   },
-   "include": ["**/*.test.ts"]
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["node_modules",".vscode", "coverage"]
 
 }

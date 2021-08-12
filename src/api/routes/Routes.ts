@@ -1,30 +1,40 @@
 /** @format */
 
-import { Application } from 'express';
-import UserRoutes from './UserRoutes';
-// import UserController from '../controllers/UserController';
+import { Application, Response } from 'express';
+import UserController from '../controllers/UserController';
+import TokenRoutes from '../auth/TokenRoutes';
+import cors from 'cors';
 
 class Routes {
-    constructor(app: Application) {
-        this.getRoutes(app);
-        // this.auth = auth;
-    }
+	constructor() {}
 
-    getRoutes(app: Application): void {
-        app.route('/').get((_req, res) => res.send('Ola mundo'));
-        app.route('/ola/:nome').get((req, res) => res.send(`Olá, ${req.params.nome}`));
+	initRoutes(app: Application, auth?: any): void {
+		app.route('/token').post(TokenRoutes.auth);
 
-        //Rotas Users
-        // app.route('/api/users/add').post(UserController.getAll);
-        app.post('/api/users/add', UserRoutes.add);
-        app.get('/api/users/all', UserRoutes.getAll); //all
-        app.post('/api/users/create', UserRoutes.create); //create
-        app.get('/api/users/:id', UserRoutes.getById); //read findByPk
-        app.put('/api/users/:id/update', UserRoutes.update); //update
-        app.get('/api/users/email/:find', UserRoutes.getByEmail); //read findOn
-        app.delete('/api/users/:id/delete', UserRoutes.delete); //delete destroy
-        // app.post('/token', this.tokenRoute.auth);
-    }
+		app.route('/api/users')
+			.all(auth.config().authenticate())
+			.post(UserController.create)
+			.get(UserController.getAll);
+
+		app.route('/api/users/email/:email')
+			.all(auth.config().authenticate())
+			.get(UserController.getByEmail);
+
+		app.route('/api/users/:id')
+			.all(auth.config().authenticate())
+			.get(UserController.getById)
+			.put(UserController.update)
+			.patch(UserController.update)
+			.delete(UserController.delete);
+
+		//habilita o cors para apenas esta rota
+		app.route('/todossemautenticacao').get(cors(), UserController.getAll);
+		app.route('/add').post(cors(), UserController.add);
+
+		app.route('/session').get((req, res) => {
+			res.json({ sessao: req.sessionID });
+		});
+	}
 }
 
-export default Routes;
+export default new Routes();

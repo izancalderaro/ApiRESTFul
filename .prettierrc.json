@@ -1,16 +1,15 @@
 {
     "singleQuote": true,
-    "trailingComma": "es5",
+    "trailingComma": "none",
     "semi": true,
-    "arrowParens": "always",
+    "arrowParens": "avoid",
     "insertPragma": true,
-    "jsxSingleQuote": true,
-    "jsxBracketSameLine": true,
     "printWidth": 100,
     "endOfLine": "crlf",
     "tabWidth": 4,
-    "useTabs": false,
-    "tslintIntegration": true,
+    "useTabs": true,
     "htmlWhitespaceSensitivity": "css",
-    "proseWrap": "always"
+    "proseWrap": "always",
+    "bracketSpacing": true
+    
 }

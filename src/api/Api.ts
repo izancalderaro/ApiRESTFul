@@ -2,32 +2,46 @@
 
 import express, { Application } from 'express';
 import morgan from 'morgan';
-import * as bodyParser from 'body-parser';
 import Routes from './routes/Routes';
-import { ErrorHandlerApi, IgnoreFavicon } from './responses/ErrorHandlerApi';
+import Handler from './responses/Handler';
+import Auth from './auth/Auth';
+import cors from 'cors';
+import helmet from 'helmet';
+import Session from 'express-session';
 
 class Api {
-    public express: Application;
+	public app: Application;
+	public sessionItens: any;
 
-    public constructor() {
-        this.express = express();
-        this.middlewares();
-    }
+	public constructor() {
+		this.sessionItens = {
+			secret: 'S3cr3t',
+			resave: true,
+			saveUninitialized: false,
+			cookie: { maxAge: 60000, secure: false }
+		};
 
-    private middlewares(): void {
-        this.express.use(morgan('dev'));
-        this.express.use(bodyParser.urlencoded({ extended: true }));
-        this.express.use(bodyParser.json());
-        // this.express.use(express.urlencoded({ extended: true }));
-        // this.express.use(express.json());
-        this.express.use(ErrorHandlerApi);
-        this.express.use(IgnoreFavicon);
-        this.routes(this.express);
-    }
+		this.app = express();
+		this.middlewares();
+		this.router(this.app, Auth);
+	}
 
-    private routes(app: Application): void {
-        new Routes(app);
-    }
+	private middlewares(): void {
+		this.app.use(cors());
+		this.app.use(helmet());
+		this.app.disable('x-powered-by');
+		this.app.use(morgan('dev'));
+		this.app.use(express.urlencoded({ extended: true }));
+		this.app.use(express.json());
+		this.app.use(Session(this.sessionItens));
+		this.app.use(Auth.config().initialize());
+		this.app.use(Auth.config().session());
+		this.app.use(Handler.ErrorHandlerApi);
+	}
+
+	private router(app: Application, auth?: any): void {
+		Routes.initRoutes(app, auth);
+	}
 }
 
-export default new Api().express;
+export default new Api().app;
