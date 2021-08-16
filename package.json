@@ -15,8 +15,8 @@
     "integrationtest-js": "set NODE_ENV=development&& node ./node_modules/mocha/bin/mocha --config ./build/tests/integration/config/.mocharc.json -r ts-node/register ./build/tests/integration/*.js",
     "unittest": "set NODE_ENV=development&& node ./node_modules/mocha/bin/mocha --config ./tests/unit/config/.mocharc.json -r ts-node/register ./tests/unit/*.ts",
     "integrationtest": "set NODE_ENV=development&& node ./node_modules/mocha/bin/mocha --config ./tests/integration/config/.mocharc.json -r ts-node/register ./tests/integration/*.ts",
-    "unitcoverage" : "nyc --reporter=html npm run unittest",
-    "integrationcoverage" : "nyc --reporter=html npm run integrationtest"
+    "unitcoverage": "nyc --reporter=html npm run unittest",
+    "integrationcoverage": "nyc --reporter=html npm run integrationtest"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -56,6 +56,9 @@
     "@types/supertest": "~2.0.11",
     "@types/validator": "~13.1.3",
     "chai": "~4.3.4",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "istanbul": "^0.4.5",
     "mocha": "~8.3.2",
     "nodemon": "~2.0.7",

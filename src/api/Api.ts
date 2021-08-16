@@ -18,7 +18,7 @@ class Api {
 			secret: 'S3cr3t',
 			resave: true,
 			saveUninitialized: false,
-			cookie: { maxAge: 60000, secure: false }
+			cookie: { maxAge: 1000, secure: false }
 		};
 
 		this.app = express();

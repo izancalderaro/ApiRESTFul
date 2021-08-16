@@ -1,6 +1,6 @@
 /** @format */
 
-import { Application, Response } from 'express';
+import { Application } from 'express';
 import UserController from '../controllers/UserController';
 import TokenRoutes from '../auth/TokenRoutes';
 import cors from 'cors';
@@ -32,7 +32,7 @@ class Routes {
 		app.route('/add').post(cors(), UserController.add);
 
 		app.route('/session').get((req, res) => {
-			res.json({ sessao: req.sessionID });
+			res.json({ sessao: req.session.id, sessaocookie: req.session.cookie });
 		});
 	}
 }

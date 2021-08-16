@@ -3,7 +3,7 @@
     "target": "es6",                               
     "module":"CommonJS",                           
     "noEmitOnError": false,                          
-    "outDir": "./build",                          
+    "outDir": "./dist",                          
     "removeComments": true,                     
     "strict": true,                              
     "noImplicitAny": false,                     
