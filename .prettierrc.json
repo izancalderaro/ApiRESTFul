@@ -4,12 +4,11 @@
     "semi": true,
     "arrowParens": "avoid",
     "insertPragma": true,
-    "printWidth": 100,
+    "printWidth": 50,
     "endOfLine": "crlf",
     "tabWidth": 4,
     "useTabs": true,
     "htmlWhitespaceSensitivity": "css",
-    "proseWrap": "always",
     "bracketSpacing": true
     
 }

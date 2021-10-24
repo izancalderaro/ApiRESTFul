@@ -2,7 +2,11 @@
 
 import { User } from '../models/User';
 import { sequelize } from '../Sequelize';
-import { IUser, createUsers, createUser } from '../interfaces/UserInterface';
+import {
+	IUser,
+	createUsers,
+	createUser
+} from '../interfaces/UserInterface';
 
 class UserService implements IUser {
 	public id: number;
@@ -49,13 +53,20 @@ class UserService implements IUser {
 	}
 
 	async update(id: number, atributos: any) {
-		let result = await User.update(atributos, {
-			where: { id },
-			fields: ['name', 'email', 'password'],
-			hooks: true,
-			individualHooks: true
-		});
-		//retorna um elemento [1, User[]], seleciono o item 1 e devolvo "User[]" no payload
+		let result = await User.update(
+			atributos,
+			{
+				where: { id },
+				fields: [
+					'name',
+					'email',
+					'password'
+				],
+				hooks: true,
+				individualHooks: true
+			}
+		);
+		//retorna uma tupla [1, User[]], seleciono o item 1 e devolvo "User[]" no payload
 		return result[1].pop();
 	}
 
@@ -77,7 +88,9 @@ class UserService implements IUser {
 		return createUser(result);
 	}
 
-	async getByEmail(email: string): Promise<IUser> {
+	async getByEmail(
+		email: string
+	): Promise<IUser> {
 		const result = await User.findOne({
 			where: { email }
 		});

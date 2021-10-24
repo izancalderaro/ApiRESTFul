@@ -13,7 +13,11 @@ import { sequelize } from './api/Sequelize';
 
 	server.listen(process.env.SERVER_PORT);
 	server.on('listening', () =>
-		console.log(`Servidor rodando na porta: ${process.env.SERVER_PORT}`)
+		console.log(
+			`Servidor rodando na porta: ${process.env.SERVER_PORT}`
+		)
 	);
-	server.on('error', (error: NodeJS.ErrnoException) => console.log(`Ocorreu um erro: ${error}`));
+	server.on('error', (error: NodeJS.ErrnoException) =>
+		console.log(`Ocorreu um erro: ${error}`)
+	);
 })();

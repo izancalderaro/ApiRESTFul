@@ -28,11 +28,17 @@ class Routes {
 			.delete(UserController.delete);
 
 		//habilita o cors para apenas esta rota
-		app.route('/todossemautenticacao').get(cors(), UserController.getAll);
+		app.route('/todossemautenticacao').get(
+			cors(),
+			UserController.getAll
+		);
 		app.route('/add').post(cors(), UserController.add);
 
 		app.route('/session').get((req, res) => {
-			res.json({ sessao: req.session.id, sessaocookie: req.session.cookie });
+			res.json({
+				sessao: req.session.id,
+				sessaocookie: req.session.cookie
+			});
 		});
 	}
 }

@@ -1,7 +1,7 @@
 sudo: required
 language: node_js
 notifications:
-  email: raphael@raphaellima.site
+  email: izancalderaro@yahoo.com.br
 node_js:
 - 6.11.1
 services:
